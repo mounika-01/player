@@ -1,23 +1,18 @@
-/*
- * You can use the following import statements
- * 
- * import org.springframework.web.bind.annotation.*;
- * import java.util.ArrayList;
- * 
- */
-
-// Write your code here.
 package com.example.player;
 
-import org.springframework.web.bind.annotation.annotation.*;
-import java.util.*;
+import org.springframework.web.bind.annotation.*;
+import java.util.ArrayList;
 import com.example.player.PlayerService;
 import com.example.player.Player;
 
 @RestController
 public class PlayerController {
 
-    PlayerService playerService = new PlayerService();
+    private final PlayerService playerService;
+
+    public PlayerController(PlayerService playerService) {
+        this.playerService = playerService;
+    }
 
     @GetMapping("/players")
     public ArrayList<Player> getPlayers() {
@@ -25,23 +20,21 @@ public class PlayerController {
     }
 
     @GetMapping("/players/{playerId}")
-
-    public Player getPlayerById(@PathVariable("playerId") int playerId) {
+    public Player getPlayerById(@PathVariable int playerId) {
         return playerService.getPlayerById(playerId);
     }
 
-    @PostMapping("/players/")
-     public Player addPlayer(@RequestBody Player player) {
+    @PostMapping("/players")
+    public Player addPlayer(@RequestBody Player player) {
         return playerService.addPlayer(player);
-     }
+    }
 
     @PutMapping("/players/{playerId}")
-    public Player updatePlayer(@PathVariable("playerId") int playerId, @RequestBody Player player) {
+    public Player updatePlayer(@PathVariable int playerId, @RequestBody Player player) {
         return playerService.updatePlayer(playerId, player);
     }
 
     @DeleteMapping("/players/{playerId}")
-
     public void deletePlayer(@PathVariable int playerId) {
         playerService.deletePlayer(playerId);
     }
