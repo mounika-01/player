@@ -1,26 +1,19 @@
-/*
- 
-* You can use the following import statements
- 
- * import org.springframework.web.server.ResponseStatusException;
- * import org.springframework.http.HttpStatus;
- 
- */
-
 package com.example.player;
 
-import com.example.player.Player;
-import com.example.player.PlayerRepository;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
-// Don't modify the below code
 
 public class PlayerService implements PlayerRepository {
 
     private static HashMap<Integer, Player> team = new HashMap<>();
+    private int uniqueId = 12; // Starting ID for new players
 
     public PlayerService() {
+        // Initialize some players for demonstration
         team.put(1, new Player(1, "Alexander", 5, "All-rounder"));
         team.put(2, new Player(2, "Benjamin", 3, "All-rounder"));
         team.put(3, new Player(3, "Michael", 18, "Batsman"));
@@ -34,67 +27,51 @@ public class PlayerService implements PlayerRepository {
         team.put(11, new Player(11, "Bob", 25, "Batsman"));
     }
 
-    // Don't modify the above code
-
-    // Write your code here
-    int uniqueId = 12;
-
     @Override
     public ArrayList<Player> getPlayers() {
         Collection<Player> playerCollection = team.values();
-        ArrayList<Player>  players = new ArrayList<>(playerCollection);
-
-        return players;
+        return new ArrayList<>(playerCollection);
     }
+
     @Override
-    public Player getPlayerById(int playerId){
+    public Player getPlayerById(int playerId) {
         Player player = team.get(playerId);
-
-        if (player == null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        if (player == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Player not found");
         }
         return player;
     }
 
-    @Override 
-    public Player addPlayer(Player player) {
-        player.setPlayerId(uniqueId);
-        team.put(uniqieId, player);
-
-        uniqueId += 1;
-        return player;
-    }
     @Override
-    public Player updatPlayer(int playerId, Player, player){
-        Player existingPlayer = team.get(playerId);
+    public Player addPlayer(Player player) {
+        player.setPlayerId(uniqueId++);
+        team.put(player.getPlayerId(), player);
+        return player;
+    }
 
-        if(existingPlayer == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+    @Override
+    public Player updatePlayer(int playerId, Player updatedPlayer) {
+        Player existingPlayer = team.get(playerId);
+        if (existingPlayer == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Player not found");
         }
-        if(player.getPlayerName() != null){
-            existingPlayer.setPlayerName(player.getPlayerName());
+        // Update player information
+        if (updatedPlayer.getPlayerName() != null) {
+            existingPlayer.setPlayerName(updatedPlayer.getPlayerName());
         }
-         if(player.getJersyNumber() != 0){
-            existingPlayer.setJersyNumber(player.getJersyNumber());
+        if (updatedPlayer.getJersyNumber() != 0) {
+            existingPlayer.setJersyNumber(updatedPlayer.getJersyNumber());
         }
-        if(player.getrole() != null){
-            existingPlayer.setRole(player.getRole());
+        if (updatedPlayer.getRole() != null) {
+            existingPlayer.setRole(updatedPlayer.getRole());
         }
         return existingPlayer;
-
     }
+
     @Override
-    public void deletePlayer(int playerId){
-
-        Player player = team.get(playerId);
-        if(player == null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        else {
-            team.remove(playerId);
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT);
+    public void deletePlayer(int playerId) {
+        if (team.remove(playerId) == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Player not found");
         }
     }
-
-
 }
