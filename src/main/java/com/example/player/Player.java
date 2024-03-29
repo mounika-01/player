@@ -4,13 +4,13 @@ package com.example.player;
 public class Player {
     private int playerId;
     private String playerName;
-    private int jersyNumber;
+    private int jerseyNumber;
     private String role;
 
-    public Player(int playerId, String playerName, int jersyNumber,String role) {
+    public Player(int playerId, String playerName, int jerseyNumber,String role) {
         this.playerId = playerId;
         this.playerName = playerName;
-        this.jersyNumber = jersyNumber;
+        this.jerseyNumber = jerseyNumber;
         this.role = role;
 
     public int getPlayerId() {
@@ -24,11 +24,11 @@ public class Player {
 
         this.playerName = playerName;
 
-    public int getJersyNumber() {
-        return jersyNumber;
+    public int getJerseyNumber() {
+        return jerseyNumber;
     }
-     public void setJersyNumber(int  jersyNumber) {
-        this.jersyNumber = jersyNumber;
+     public void setJerseyNumber(int  jerseyNumber) {
+        this.jerseyNumber = jerseyNumber;
     }
 
     public String getRole() {
