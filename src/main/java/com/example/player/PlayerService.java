@@ -68,10 +68,16 @@ public class PlayerService implements PlayerRepository {
         return existingPlayer;
     }
 
-    @Override
+@Override
     public void deletePlayer(int playerId) {
-        if (team.remove(playerId) == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Player not found");
+
+
+        Player player = team.get(playerId);
+        if (player == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        } else {
+            team.remove(playerId);
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT);
         }
     }
 }
