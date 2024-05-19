@@ -18,7 +18,7 @@ public class PlayerController {
 
     @GetMapping("/players/{playerId}")
     public Player getPlayer(@PathVariable("playerId") int playerId) {
-        return playerservice.getPlayer(playerId);
+        return playerservice.getPlayerById(playerId); // Update method call here
     }
 
     @PostMapping("/players")
