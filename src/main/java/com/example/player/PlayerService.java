@@ -37,13 +37,10 @@ public class PlayerService implements PlayerRepository {
         return PlayerList;
     }
 
-    @Override
-
   @Override
-public Player getPlayerById(int playerId) {
-    // method implementation
-}
-        Player player = team.get(playerId);
+public Player getPlayerById(int playerId)
+    {
+ Player player = team.get(playerId);
         if (player == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
